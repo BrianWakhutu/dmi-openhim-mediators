@@ -40,19 +40,27 @@ const redcapApiUrl = 'https://afi.icapkenya.org/redcap/api/';
 const redcapAPiKey = '651296226777ED6CB8FB4CAF4B6C656A';
 
 //Endpoint in the mediator
-
+const data = {
+  token: 'E35A9AC94387518F622',
+  content: 'record',
+  action: 'export',
+  format: 'csv',
+  type: 'flat',
+  csvDelimiter: '',
+  rawOrLabel: 'raw',
+  rawOrLabelHeaders: 'raw',
+  exportCheckboxLabel: 'false',
+  exportSurveyFields: 'false',
+  exportDataAccessGroups: 'false',
+  returnFormat: 'json'
+};
 app.post('/fetch-mortality-data', async(req, res) => {
    try {
-    const response = await axios.post(redcapApiUrl, {
-      token: redcapAPiKey,
-      content: 'project',
-      format: 'json',
-      returnFormat: 'json'
-    }).then(response => {
+    const response = await axios.post(redcapApiUrl, data).then(response => {
       res.json(response.data);
     });
   
-     for (const row of response.data) {
+/*      for (const row of response.data) {
          const queryAsync = util.promisify(sql.query);
          const result = await queryAsync(connectionString, `INSERT INTO [dbo].[HospitalMortality]
          ([record_id]
@@ -318,7 +326,7 @@ app.post('/fetch-mortality-data', async(req, res) => {
           )`);
 
      } 
-     res.json({ message: 'Data fetched and stored in database' });
+     res.json({ message: 'Data fetched and stored in database' }); */
   
       
    } catch (error) {
